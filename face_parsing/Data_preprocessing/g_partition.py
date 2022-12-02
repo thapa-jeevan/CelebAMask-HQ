@@ -1,7 +1,8 @@
 import os
-import shutil
-import pandas as pd
 from shutil import copyfile
+
+import pandas as pd
+
 from utils import make_folder
 
 #### source data path
@@ -36,22 +37,22 @@ f_val = open('val_list.txt', 'w')
 f_test = open('test_list.txt', 'w')
 
 for idx, x in enumerate(image_list.loc[:, 1]):
-    print (idx, x)
+    print(idx, x)
     if x >= 162771 and x < 182638:
-        copyfile(os.path.join(s_label, str(idx)+'.png'), os.path.join(d_val_label, str(val_count)+'.png'))
-        copyfile(os.path.join(s_img, str(idx)+'.jpg'), os.path.join(d_val_img, str(val_count)+'.jpg'))        
+        copyfile(os.path.join(s_label, str(idx) + '.png'), os.path.join(d_val_label, str(val_count) + '.png'))
+        copyfile(os.path.join(s_img, str(idx) + '.jpg'), os.path.join(d_val_img, str(val_count) + '.jpg'))
         val_count += 1
 
     elif x >= 182638:
-        copyfile(os.path.join(s_label, str(idx)+'.png'), os.path.join(d_test_label, str(test_count)+'.png'))
-        copyfile(os.path.join(s_img, str(idx)+'.jpg'), os.path.join(d_test_img, str(test_count)+'.jpg'))
-        test_count += 1 
+        copyfile(os.path.join(s_label, str(idx) + '.png'), os.path.join(d_test_label, str(test_count) + '.png'))
+        copyfile(os.path.join(s_img, str(idx) + '.jpg'), os.path.join(d_test_img, str(test_count) + '.jpg'))
+        test_count += 1
     else:
-        copyfile(os.path.join(s_label, str(idx)+'.png'), os.path.join(d_train_label, str(train_count)+'.png'))
-        copyfile(os.path.join(s_img, str(idx)+'.jpg'), os.path.join(d_train_img, str(train_count)+'.jpg'))
-        train_count += 1  
+        copyfile(os.path.join(s_label, str(idx) + '.png'), os.path.join(d_train_label, str(train_count) + '.png'))
+        copyfile(os.path.join(s_img, str(idx) + '.jpg'), os.path.join(d_train_img, str(train_count) + '.jpg'))
+        train_count += 1
 
-print (train_count + test_count + val_count)
+print(train_count + test_count + val_count)
 #### close the file
 f_train.close()
 f_val.close()

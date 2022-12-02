@@ -1,8 +1,9 @@
-import torch
-import torchvision.datasets as dsets
-from torchvision import transforms
-from PIL import Image
 import os
+
+import torch
+from PIL import Image
+from torchvision import transforms
+
 
 class CelebAMaskHQ():
     def __init__(self, img_path, label_path, transform_img, transform_label, mode):
@@ -14,27 +15,28 @@ class CelebAMaskHQ():
         self.test_dataset = []
         self.mode = mode
         self.preprocess()
-        
+
         if mode == True:
             self.num_images = len(self.train_dataset)
         else:
             self.num_images = len(self.test_dataset)
 
     def preprocess(self):
-        
-        for i in range(len([name for name in os.listdir(self.img_path) if os.path.isfile(os.path.join(self.img_path, name))])):
-            img_path = os.path.join(self.img_path, str(i)+'.jpg')
-            label_path = os.path.join(self.label_path, str(i)+'.png')
-            print (img_path, label_path) 
+
+        for i in range(
+                len([name for name in os.listdir(self.img_path) if os.path.isfile(os.path.join(self.img_path, name))])):
+            img_path = os.path.join(self.img_path, str(i) + '.jpg')
+            label_path = os.path.join(self.label_path, str(i) + '.png')
+            print(img_path, label_path)
             if self.mode == True:
                 self.train_dataset.append([img_path, label_path])
             else:
                 self.test_dataset.append([img_path, label_path])
-            
+
         print('Finished preprocessing the CelebA dataset...')
 
     def __getitem__(self, index):
-        
+
         dataset = self.train_dataset if self.mode == True else self.test_dataset
         img_path, label_path = dataset[index]
         image = Image.open(img_path)
@@ -44,6 +46,7 @@ class CelebAMaskHQ():
     def __len__(self):
         """Return the number of images."""
         return self.num_images
+
 
 class Data_Loader():
     def __init__(self, img_path, label_path, image_size, batch_size, mode):
@@ -58,7 +61,7 @@ class Data_Loader():
         if centercrop:
             options.append(transforms.CenterCrop(160))
         if resize:
-            options.append(transforms.Resize((self.imsize,self.imsize)))
+            options.append(transforms.Resize((self.imsize, self.imsize)))
         if totensor:
             options.append(transforms.ToTensor())
         if normalize:
@@ -71,7 +74,7 @@ class Data_Loader():
         if centercrop:
             options.append(transforms.CenterCrop(160))
         if resize:
-            options.append(transforms.Resize((self.imsize,self.imsize)))
+            options.append(transforms.Resize((self.imsize, self.imsize)))
         if totensor:
             options.append(transforms.ToTensor())
         if normalize:
@@ -80,8 +83,8 @@ class Data_Loader():
         return transform
 
     def loader(self):
-        transform_img = self.transform_img(True, True, True, False) 
-        transform_label = self.transform_label(True, True, False, False)  
+        transform_img = self.transform_img(True, True, True, False)
+        transform_label = self.transform_label(True, True, False, False)
         dataset = CelebAMaskHQ(self.img_path, self.label_path, transform_img, transform_label, self.mode)
 
         loader = torch.utils.data.DataLoader(dataset=dataset,
@@ -90,4 +93,3 @@ class Data_Loader():
                                              num_workers=2,
                                              drop_last=False)
         return loader
-

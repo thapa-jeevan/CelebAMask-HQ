@@ -1,19 +1,15 @@
-
-import os
-import time
-import torch
 import datetime
+import time
 
 import torch.nn as nn
-from torch.autograd import Variable
+from tensorboardX import SummaryWriter
 from torchvision.utils import save_image
-import numpy as np
-import torch.nn.functional as F
 
 from unet import unet
 from utils import *
-from tensorboardX import SummaryWriter
+
 writer = SummaryWriter('runs/training')
+
 
 class Trainer(object):
     def __init__(self, data_loader, config):
@@ -39,7 +35,7 @@ class Trainer(object):
 
         self.use_tensorboard = config.use_tensorboard
         self.img_path = config.img_path
-        self.label_path = config.label_path 
+        self.label_path = config.label_path
         self.log_path = config.log_path
         self.model_save_path = config.model_save_path
         self.sample_path = config.sample_path
@@ -80,11 +76,7 @@ class Trainer(object):
         for step in range(start, self.total_step):
 
             self.G.train()
-            try:
-                imgs, labels = next(data_iter)
-            except:
-                data_iter = iter(self.data_loader)
-                imgs, labels = next(data_iter)
+            imgs, labels = next(data_iter)
 
             size = labels.size()
             labels[:, 0, :, :] = labels[:, 0, :, :] * 255.0
@@ -97,7 +89,7 @@ class Trainer(object):
             imgs = imgs.cuda()
             # ================== Train G =================== #
             labels_predict = self.G(imgs)
-                       
+
             # Calculate cross entropy loss
             c_loss = cross_entropy2d(labels_predict, labels_real_plain.long())
             self.reset_grad()
@@ -115,7 +107,7 @@ class Trainer(object):
             label_batch_real = generate_label(labels_real, self.imsize)
 
             # scalr info on tensorboardX
-            writer.add_scalar('Loss/Cross_entrophy_loss', c_loss.data, step) 
+            writer.add_scalar('Loss/Cross_entrophy_loss', c_loss.data, step)
 
             # image infor on tensorboardX
             img_combine = imgs[0]
@@ -137,10 +129,10 @@ class Trainer(object):
                 save_image(denorm(labels_sample.data),
                            os.path.join(self.sample_path, '{}_predict.png'.format(step + 1)))
 
-            if (step+1) % model_save_step==0:
+            if (step + 1) % model_save_step == 0:
                 torch.save(self.G.state_dict(),
                            os.path.join(self.model_save_path, '{}_G.pth'.format(step + 1)))
-    
+
     def build_model(self):
 
         self.G = unet().cuda()
@@ -149,7 +141,8 @@ class Trainer(object):
 
         # Loss and optimizer
         self.g_optimizer = torch.optim.Adam(self.G.parameters(), self.g_lr, [self.beta1, self.beta2])
-        self.g_optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, self.G.parameters()), self.g_lr, [self.beta1, self.beta2])
+        self.g_optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, self.G.parameters()), self.g_lr,
+                                            [self.beta1, self.beta2])
 
         # print networks
         print(self.G)
