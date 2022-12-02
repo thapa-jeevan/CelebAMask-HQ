@@ -8,8 +8,8 @@ from utils import make_folder
 label_list = ['skin', 'nose', 'eye_g', 'l_eye', 'r_eye', 'l_brow', 'r_brow', 'l_ear', 'r_ear', 'mouth', 'u_lip',
               'l_lip', 'hair', 'hat', 'ear_r', 'neck_l', 'neck', 'cloth']
 
-folder_base = 'CelebAMaskHQ-mask-anno'
-folder_save = 'CelebAMaskHQ-mask'
+folder_base = 'CelebAMask-HQ/CelebAMaskHQ-mask-anno'
+folder_save = 'CelebAMask-HQ/CelebAMaskHQ-mask'
 img_num = 30000
 
 make_folder(folder_save)

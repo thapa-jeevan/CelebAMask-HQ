@@ -6,17 +6,17 @@ import pandas as pd
 from utils import make_folder
 
 #### source data path
-s_label = 'CelebAMask-HQ-label'
-s_img = 'CelebA-HQ-img'
+s_label = 'CelebAMask-HQ/CelebAMask-HQ-label'
+s_img = 'CelebAMask-HQ/CelebA-HQ-img'
 #### destination training data path
-d_train_label = 'train_label'
-d_train_img = 'train_img'
+d_train_label = 'final/CelebAMask-HQ/train_label'
+d_train_img = 'final/CelebAMask-HQ/train_img'
 #### destination testing data path
-d_test_label = 'test_label'
-d_test_img = 'test_img'
+d_test_label = 'final/CelebAMask-HQ/test_label'
+d_test_img = 'final/CelebAMask-HQ/test_img'
 #### val data path
-d_val_label = 'val_label'
-d_val_img = 'val_img'
+d_val_label = 'final/CelebAMask-HQ/val_label'
+d_val_img = 'final/CelebAMask-HQ/val_img'
 
 #### make folder
 make_folder(d_train_label)
@@ -31,10 +31,10 @@ train_count = 0
 test_count = 0
 val_count = 0
 
-image_list = pd.read_csv('CelebA-HQ-to-CelebA-mapping.txt', delim_whitespace=True, header=None)
-f_train = open('train_list.txt', 'w')
-f_val = open('val_list.txt', 'w')
-f_test = open('test_list.txt', 'w')
+image_list = pd.read_csv('CelebAMask-HQ/CelebA-HQ-to-CelebA-mapping.txt', delim_whitespace=True, header=None)
+f_train = open('CelebAMask-HQ/train_list.txt', 'w')
+f_val = open('CelebAMask-HQ/val_list.txt', 'w')
+f_test = open('CelebAMask-HQ/test_list.txt', 'w')
 
 for idx, x in enumerate(image_list.loc[:, 1]):
     print(idx, x)
