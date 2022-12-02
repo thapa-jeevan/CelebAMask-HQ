@@ -17,9 +17,9 @@ make_folder(folder_save)
 
 for k in range(img_num):
     filename = os.path.join(folder_base, str(k) + '.png')
-    im_base = np.zeros((512, 512, 3))
-
+    print(filename)
     if (os.path.exists(filename)):
+        im_base = np.zeros((512, 512, 3))
         im = Image.open(filename)
         im = np.array(im)
         for idx, color in enumerate(color_list):

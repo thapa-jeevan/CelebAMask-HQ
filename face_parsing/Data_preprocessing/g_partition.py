@@ -6,7 +6,7 @@ import pandas as pd
 from utils import make_folder
 
 #### source data path
-s_label = 'CelebAMask-HQ/CelebAMask-HQ-label'
+s_label = 'CelebAMask-HQ/CelebAMask-HQ-mask'
 s_img = 'CelebAMask-HQ/CelebA-HQ-img'
 #### destination training data path
 d_train_label = 'final/CelebAMask-HQ/train_label'
@@ -31,7 +31,7 @@ train_count = 0
 test_count = 0
 val_count = 0
 
-image_list = pd.read_csv('CelebAMask-HQ/CelebA-HQ-to-CelebA-mapping.txt', delim_whitespace=True, header=None)
+image_list = pd.read_csv('CelebAMask-HQ/CelebA-HQ-to-CelebA-mapping.txt', delim_whitespace=True, header=None, skiprows=1)
 f_train = open('CelebAMask-HQ/train_list.txt', 'w')
 f_val = open('CelebAMask-HQ/val_list.txt', 'w')
 f_test = open('CelebAMask-HQ/test_list.txt', 'w')
